@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿梓 - 官方主页</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        /* CSS 变量：提取自 Logo 配色 */
+        :root {
+            --bg-color: #F4F6F9; /* 浅灰背景 */
+            --text-main: #3A405A; /* 深蓝灰 */
+            --text-muted: #7A829E;
+            --accent-orange: #F4B541;
+            --accent-green: #9BC15A;
+            --accent-blue: #6B94F4;
+            --card-bg: #FFFFFF;
+            --card-radius: 24px;
+            --shadow: 0 10px 30px rgba(58, 64, 90, 0.08);
+            --shadow-hover: 0 15px 35px rgba(58, 64, 90, 0.15);
+        }
+
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景漂浮元素动画 */
+        .bg-shape {
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 8s infinite ease-in-out;
+        }
+        .bg-shape.circle-orange { width: 150px; height: 150px; background: var(--accent-orange); top: 10%; left: -50px; animation-delay: 0s; }
+        .bg-shape.circle-green { width: 100px; height: 100px; background: var(--accent-green); bottom: 20%; right: -30px; animation-delay: 2s; }
+        .bg-shape.circle-blue { width: 80px; height: 80px; background: var(--accent-blue); top: 60%; left: 10%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* 头部卡片 */
+        .header-card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .header-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Logo 图片容器 */
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 8px 20px rgba(58, 64, 90, 0.1);
+            /* 如果没有图片，这是一个备用背景 */
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 3s infinite alternate;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 如果没有图片，显示文字占位 */
+        .logo-placeholder-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+
+        .header-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header-card p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* 卡片网格 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* 独立卡片 */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 卡片顶部的彩色装饰条 */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            border-radius: var(--card-radius) var(--card-radius) 0 0;
+        }
+        .card.game-card::before { background: var(--accent-orange); }
+        .card.contact-card::before { background: var(--accent-green); }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 小图标点缀 */
+        .card h2::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .game-card h2::before { background: var(--accent-orange); }
+        .contact-card h2::before { background: var(--accent-green); }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e0a333;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(244, 181, 65, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--text-main);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2c3146;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(58, 64, 90, 0.3);
+        }
+
+        /* 入场动画 */
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 页脚 */
+        footer {
+            margin-top: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .container { margin: 20px auto; gap: 16px; }
+            .header-card { padding: 30px 15px; }
+            .logo-container { width: 120px; height: 120px; }
+            .header-card h1 { font-size: 26px; }
+            .card { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景动态漂浮元素 -->
+    <div class="bg-shape circle-orange"></div>
+    <div class="bg-shape circle-green"></div>
+    <div class="bg-shape circle-blue"></div>
+
+    <main class="container">
+        <!-- 头部信息 -->
+        <header class="header-card">
+            <div class="logo-container" id="logoBox">
+                <!-- 厂商 Logo：与 index.html 同目录下的 logo.png，上传 GitHub Pages 后按相对路径加载 -->
+                <img src="logo.png" alt="阿梓 Logo" width="150" height="150" onerror="this.style.display='none'; document.querySelector('.logo-placeholder-text').style.display='block';">
+                <span class="logo-placeholder-text">阿梓</span>
+            </div>
+            <h1>阿梓的游戏小屋</h1>
+            <p>用心创造每一份快乐</p>
+        </header>
+
+        <!-- 内容卡片区 -->
+        <div class="grid-container">
+            <!-- 游戏作品卡片 -->
+            <div class="card game-card">
+                <h2>全新作品</h2>
+                <p>游戏正在紧锣密鼓地开发中。这里有奇妙的冒险、可爱的角色，期待与你早日相见！</p>
+                <a href="#" class="btn btn-primary">敬请期待</a>
+            </div>
+
+            <!-- 联系方式卡片 -->
+            <div class="card contact-card">
+                <h2>联系与关注</h2>
+                <p>如果你对我们的游戏感兴趣，或者想分享你的想法，欢迎在 TapTap 社区留言互动。</p>
+                <a href="#" class="btn btn-secondary">前往社区</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        © 2023 阿梓. All rights reserved.
+    </footer>
+
+    <!-- JS 逻辑：鼠标跟随动态效果 -->
+    <script>
+        // 给卡片添加鼠标悬停时的“3D”倾斜效果（微妙）
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x 轴坐标
+                const y = e.clientY - rect.top;  // y 轴坐标
+                
+                // 计算倾斜角度（限制在微小幅度内）
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5; // 上下倾斜
+                const rotateY = ((x - centerX) / centerX) * 5;  // 左右倾斜
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+            });
+            
+            // 鼠标离开时恢复原状
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // 动态生成一些背景小星星（呼应 Logo 中的星星）
+        function createStar() {
+            const star = document.createElement('div');
+            star.innerHTML = '✨';
+            star.style.position = 'absolute';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            star.style.opacity = '0';
+            star.style.transition = 'all 2s ease-in-out';
+            star.style.pointerEvents = 'none';
+            document.body.appendChild(star);
+
+            // 触发动画
+            setTimeout(() => {
+                star.style.opacity = '0.6';
+                star.style.transform = `translateY(-50px) scale(1.5) rotate(${Math.random() * 180}deg)`;
+            }, 100);
+
+            // 移除元素
+            setTimeout(() => {
+                star.style.opacity = '0';
+                setTimeout(() => star.remove(), 2000);
+            }, 3000);
+        }
+
+        // 定时生成星星
+        setInterval(createStar, 1500);
+    </script>
+</body>
+</html>
